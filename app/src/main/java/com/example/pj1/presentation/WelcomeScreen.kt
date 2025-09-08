@@ -24,11 +24,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.pj1.R
 import com.example.pj1.ui.theme.Pj1Theme
 
 @Composable
-fun WelcomeScreen() {
+fun OnBoarding(navController: NavController) {
     Pj1Theme {
         Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
             Column(
@@ -67,7 +69,7 @@ fun WelcomeScreen() {
                 ) {
                     TextButton(
                         onClick = {
-
+                            navController.navigate(Screen.AuthenticationScreen.route)
                         },
                         modifier = Modifier.align(Alignment.Center),
                         colors = ButtonDefaults.textButtonColors(
@@ -85,8 +87,8 @@ fun WelcomeScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun WelcomeScreenPreview() {
+fun OnBoardingPreview() {
     Pj1Theme {
-        WelcomeScreen()
+        OnBoarding(navController = rememberNavController())
     }
 }

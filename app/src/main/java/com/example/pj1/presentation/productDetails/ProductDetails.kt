@@ -25,6 +25,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,6 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.pj1.presentation.Product
@@ -45,8 +48,11 @@ import com.example.pj1.ui.theme.Pj1Theme
 @Composable
 fun ProductDetails(
     //navController: NavController ,
-    product: Product
+    product: Product,
+    viewModel: ProductDetailsViewModel = viewModel()
 ) {
+    val quantity by viewModel.quantity.collectAsState()
+
     Pj1Theme {
         Scaffold { innerPadding ->
             Box(
@@ -110,17 +116,17 @@ fun ProductDetails(
                                         modifier = Modifier
                                             .size(32.dp)
                                             .clip(CircleShape)
-                                            .clickable { }
+                                            .clickable { viewModel.decreaseQuantity() }
                                             .border(BorderStroke(1.dp, Color.Black), CircleShape),
                                         contentAlignment = Alignment.Center
                                     ) {
                                         Text(text = "-", fontSize = 32.sp, color = Color.Black,
                                             modifier = Modifier
-                                            .wrapContentSize(Alignment.Center))
+                                                .wrapContentSize(Alignment.Center))
                                     }
 
                                     Text(
-                                        "1",
+                                        quantity.toString(),
                                         fontWeight = FontWeight.W500,
                                         fontSize = 20.sp,
                                         modifier = Modifier
@@ -135,7 +141,9 @@ fun ProductDetails(
                                                 color = Color(0xFFFFF2E7),
                                                 shape = RoundedCornerShape(50.dp)
                                             )
-                                            .clickable { },
+                                            .clickable {
+                                                viewModel.increaseQuantity()
+                                                       },
                                         contentAlignment = Alignment.Center
                                     ) {
                                         Text(text = "+", fontSize = 32.sp, color = Color(0xFFFFA451), textAlign = TextAlign.Center)
@@ -143,7 +151,7 @@ fun ProductDetails(
 
                                 }
 
-                                Text(product.price.toString() + "$", fontWeight = FontWeight.W500, fontSize = 24.sp)
+                                Text("$${product.price * quantity}", fontWeight = FontWeight.W500, fontSize = 24.sp)
 
                             }
 
@@ -197,7 +205,7 @@ fun ProductDetails(
                                             color = Color(0xFFFFA451),
                                             shape = RoundedCornerShape(50.dp)
                                         )
-                                        .clickable { },
+                                        .clickable { viewModel.increaseQuantity() },
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Text(text = "+", fontSize = 20.sp, color = Color.White)
@@ -213,7 +221,7 @@ fun ProductDetails(
                                 ) {
                                     TextButton(
                                         onClick = {
-
+                                            viewModel.addToBasket()
                                         },
                                         modifier = Modifier.align(Alignment.Center),
                                         colors = ButtonDefaults.textButtonColors(

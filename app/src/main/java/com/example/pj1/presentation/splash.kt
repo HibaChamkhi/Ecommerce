@@ -1,6 +1,5 @@
 package com.example.pj1.presentation
 
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -26,7 +25,6 @@ import com.example.pj1.R
 import com.example.pj1.ui.theme.Pj1Theme
 import kotlinx.coroutines.delay
 
-
 @Composable
 fun Splash(navController: NavController) {
     Pj1Theme {
@@ -49,16 +47,15 @@ fun Splash(navController: NavController) {
                         painterResource(R.drawable.splash),
                         contentDescription = "Content description for visually impaired",
                         modifier = Modifier
-                            .width(303.dp)   // Fixed width
+                            .width(303.dp)
                             .height(303.dp)
                             .align(Alignment.Center)
                     )
                 }
-                }
             }
         }
+    }
 }
-
 
 @Preview(showBackground = true)
 @Composable
